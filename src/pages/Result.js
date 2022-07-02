@@ -15,6 +15,9 @@ const Result = () => {
         navigate('/');
     }
 
+    let re = new RegExp('ab+c', 'i')
+    console.log(re)
+
     return (
         <div>
             <Container>
