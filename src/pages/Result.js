@@ -51,11 +51,13 @@ const Result = () => {
                     </Box>
                     <Card sx={{ maxWidth: 345 }}>
                         <CardMedia
-                            component="img"
+                            // component="img"
                             height="140"
-                            image="/static/images/cards/contemplative-reptile.jpg"
-                            alt="green iguana"
+                            // image="/static/images/cards/contemplative-reptile.jpg"
+                            // alt="green iguana"
+                            Typography="This is H1"
                         />
+                        <Typography>This is H1</Typography>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
                                 Name
