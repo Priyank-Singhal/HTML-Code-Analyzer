@@ -3,11 +3,18 @@ import '../index.css'
 import { Box, Container } from '@mui/system'
 import { Typography, Button, TextField } from '@mui/material'
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
+import {useNavigate} from 'react-router-dom'
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 
 const Result = () => {
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/');
+    }
+
     return (
         <div>
             <Container>
@@ -35,6 +42,7 @@ const Result = () => {
                                 marginTop: '1rem',
                                 marginBottom: '1rem'
                             }}
+                            onClick={handleClick}
                             variant='contained'
                         >Run Again</Button>
                     </Box>
