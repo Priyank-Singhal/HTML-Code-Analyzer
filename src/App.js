@@ -13,7 +13,6 @@ function App() {
           <Route exact path="/result" element={<Result />} />
         </Routes>
       </DataContext.Provider>
-      {/* <Home /> */}
     </div>
   );
 }

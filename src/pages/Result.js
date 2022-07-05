@@ -42,31 +42,33 @@ const Result = () => {
                                 color: 'black',
                                 marginTop: 7,
                                 justifyContent: 'center',
-                                // marginTop: '1rem',
                                 marginBottom: '1rem'
                             }}
                             onClick={handleClick}
                             variant='contained'
                         >Run Again</Button>
                     </Box>
-                    {tags && tags.map((item, ind) => {
-                        return <Card sx={{ maxWidth: 345 }}>
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    Name
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ marginBottom: '1rem' }}>
-                                    {item}
-                                </Typography>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    Occurances
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    {freq[ind]}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    })}
+                    <Box style={{display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap'}}>
+                        {tags && tags.map((item, ind) => {
+                            return <Card sx={{ maxWidth: 345, minWidth: 300, mt: 4 }}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        Name
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" sx={{ marginBottom: '1rem' }}>
+                                        {item}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        Occurances
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {freq[ind]}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        })}
+                        {!tags.length && <Typography>Please Click Run again Button and enter some HTML Code</Typography>}
+                    </Box>
 
                 </Box>
             </Container>
