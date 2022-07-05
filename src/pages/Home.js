@@ -3,47 +3,67 @@ import '../index.css'
 import { Box, Container } from '@mui/system'
 import { Typography, Button, TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-var beautify = require('js-beautify').html,
-    fs = require('fs');
+var beautify = require('js-beautify').html
+// fs = require('fs');
 
 const Home = () => {
     const [code, setCode] = useState('');
+    const [arr, setArr] = useState([]);
 
     const navigate = useNavigate();
 
     const handleClick = () => {
         navigate('/result');
     }
+
     const handleField = (e) => {
         setCode(() => {
             return beautify(e.target.value, { indent_size: 2, space_in_empty_paren: true });
         });
     }
-    // console.log(code);
-    // beautify(code, { indent_size: 2, space_in_empty_paren: true });
 
-    // const m = re.exec(code);
-    
-   
+    const getTag = (str) => {
+        const n = str.lenght;
+        let i = 0;
+        while(str[i] != ' ' || str[i] != '>'){
+            i++;
+        }
+        return str.slice(1, i);
+    }
 
     var m;
-    var numspace = '';
-    const regex = "^(" + numspace + "<).*>$";
-    var re = /^(  <).*>$/gm;
-    const out = code.match(re);
-    do {
-        m = re.exec(code);
-        if (m) {
-            // console.log(m[0], m[1]);
-            console.log(m);
-        }
-    } while (m);
     console.log(m);
-    console.log(code)
-    // do{
 
+    const openingTagLine = new RegExp("^(<[^\/]).*(>)", "gm");
+        do {
+            m = openingTagLine.exec(code);
+            if (m) {
+                console.log(m[0]);
+                const word = getTag(m[0]);
+                setArr([...arr, word]);
+            }
+        } while (m);
+        console.log(arr);
+    // while(false){
     // }
-    // while(m)
+
+
+    // do {
+    //     var regex = `/^(${numspace}<).*>$/gm`;
+    //     // var re = /^( <).*>$/gm; 
+    //     const re = /(<\/).*>$/gm;
+    //     const validEmail = new RegExp(`/^(${numspace}<).*>$/gm`);
+    //     const reg = new RegExp('(<).*>$', 'gm');
+    //     const openingTagLine = new RegExp("^(<[^\/]).*(>)", "gm");
+    //     do {
+    //         m = reg.exec(code);
+    //         if (m) {
+    //             // console.log(m[0], m[1]);
+    //             console.log(m);
+    //         }
+    //     } while (m);
+    // }
+    // while (m)
 
     return (
         <div>

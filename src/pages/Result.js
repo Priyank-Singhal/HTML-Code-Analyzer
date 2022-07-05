@@ -1,7 +1,7 @@
 import React from 'react'
 import '../index.css'
 import { Box, Container } from '@mui/system'
-import { Typography, Button, TextField } from '@mui/material'
+import { Typography, Button } from '@mui/material'
 import Card from '@mui/material/Card';
 import {useNavigate} from 'react-router-dom'
 import CardContent from '@mui/material/CardContent';
@@ -42,7 +42,7 @@ const Result = () => {
                                 color: 'black',
                                 marginTop: 7,
                                 justifyContent: 'center',
-                                marginTop: '1rem',
+                                // marginTop: '1rem',
                                 marginBottom: '1rem'
                             }}
                             onClick={handleClick}
