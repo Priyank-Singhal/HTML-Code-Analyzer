@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, createContext } from 'react'
 import '../index.css'
 import { Box, Container } from '@mui/system'
 import { Typography, Button, TextField } from '@mui/material'
@@ -6,16 +6,16 @@ import { useNavigate } from 'react-router-dom'
 var beautify = require('js-beautify').html
 // fs = require('fs');
 
+export const map = new Map();
+// export const map = 'new Map()';
 const Home = () => {
     const [code, setCode] = useState('');
     const [arr, setArr] = useState({});
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState(['']);
     const [freq, setFreq] = useState([]);
     // let tags = [];
     // let freq = [];
     const [loop, setLoop] = useState(true);
-    const map = new Map();
-
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -60,31 +60,32 @@ const Home = () => {
 
     let m;
     const RunRegx = () => {
-        let count = 1;
+        // let count = 1;
         let numspace = '';
         while (loop) {
             const openingTagLine = new RegExp(`^(${numspace}<[^\/]).*(>)`, "gm");
-            map.clear();
+            const newMap = new Map();
+            // map.clear();
             do {
                 m = openingTagLine.exec(code);
                 if (m) {
                     const w = m[0];
                     // console.log(w)
                     const word = getTag(w);
-                    if (map.get(word)) {
-                        let wordCount = map.get(word);
-                        map.set(word, ++wordCount);
+                    if (newMap.get(word)) {
+                        let wordCount = newMap.get(word);
+                        newMap.set(word, ++wordCount);
                     }
-                    else map.set(word, 1)
+                    else newMap.set(word, 1)
                     // addWord(word);
                 }
             } while (m);
 
-            for (const [k, v] of map) {
+            for (const [k, v] of newMap) {
                 if (v > 1) {
                     addTags(k);
                     addFreq(v);
-
+                    map.set(k, v);
                     console.log(k, v)
                     // tags = [...map.keys()]
                     // freq = [...map.values()]
@@ -94,13 +95,15 @@ const Home = () => {
 
             numspace = numspace + '  ';
             //while map not empty
-            // console.log(map);
+            // map = newMap;
+            console.log(newMap);
+            console.log(map);
             // ++count;
             // console.log(count);
-            console.log(tags);
-            console.log(freq);
+            // console.log(tags);
+            // console.log(freq);
             // console.log(map.size)
-            if (!map.size) break;
+            if (!newMap.size) break;
             // if(count>5) break;
         }
     }
@@ -178,3 +181,5 @@ const Home = () => {
 }
 
 export default Home
+
+export const DataContext = createContext(map);
