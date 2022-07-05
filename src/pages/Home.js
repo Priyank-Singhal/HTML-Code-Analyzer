@@ -8,7 +8,13 @@ var beautify = require('js-beautify').html
 
 const Home = () => {
     const [code, setCode] = useState('');
-    const [arr, setArr] = useState([]);
+    const [arr, setArr] = useState({});
+    const [tags, setTags] = useState([]);
+    const [freq, setFreq] = useState([]);
+    // let tags = [];
+    // let freq = [];
+    const [loop, setLoop] = useState(true);
+    const map = new Map();
 
     const navigate = useNavigate();
 
@@ -19,33 +25,85 @@ const Home = () => {
     const handleField = (e) => {
         setCode(() => {
             return beautify(e.target.value, { indent_size: 2, space_in_empty_paren: true });
+            // return e.target.value
         });
     }
 
     const getTag = (str) => {
-        const n = str.lenght;
         let i = 0;
-        while(str[i] != ' ' || str[i] != '>'){
+        let j = 0;
+        // while(str[i] != ' ' || str[i] != '>'){
+        //     i++;
+        // }
+        while (j < str.length) {
+            if (str[j] === '<') break;
+            // console.log(str[i])
+            j++;
+        }
+        i = j;
+        while (i < str.length) {
+            if (str[i] === '>' || str[i] === ' ') break;
+            // console.log(str[i])
             i++;
         }
-        return str.slice(1, i);
+        return str.slice(j + 1, i);
     }
 
-    var m;
-    console.log(m);
+    const addTags = (k) => {
+        // setArr(oldArray => [...oldArray, word]);
+        setTags(prev => [...prev, k]);
+    }
 
-    const openingTagLine = new RegExp("^(<[^\/]).*(>)", "gm");
-        do {
-            m = openingTagLine.exec(code);
-            if (m) {
-                console.log(m[0]);
-                const word = getTag(m[0]);
-                setArr([...arr, word]);
+    const addFreq = (v) => {
+        setFreq(prev => [...prev, v])
+    }
+
+    let m;
+    const RunRegx = () => {
+        let count = 1;
+        let numspace = '';
+        while (loop) {
+            const openingTagLine = new RegExp(`^(${numspace}<[^\/]).*(>)`, "gm");
+            map.clear();
+            do {
+                m = openingTagLine.exec(code);
+                if (m) {
+                    const w = m[0];
+                    // console.log(w)
+                    const word = getTag(w);
+                    if (map.get(word)) {
+                        let wordCount = map.get(word);
+                        map.set(word, ++wordCount);
+                    }
+                    else map.set(word, 1)
+                    // addWord(word);
+                }
+            } while (m);
+
+            for (const [k, v] of map) {
+                if (v > 1) {
+                    addTags(k);
+                    addFreq(v);
+
+                    console.log(k, v)
+                    // tags = [...map.keys()]
+                    // freq = [...map.values()]
+                    // setLoop(false);
+                }
             }
-        } while (m);
-        console.log(arr);
-    // while(false){
-    // }
+
+            numspace = numspace + '  ';
+            //while map not empty
+            // console.log(map);
+            // ++count;
+            // console.log(count);
+            console.log(tags);
+            console.log(freq);
+            // console.log(map.size)
+            if (!map.size) break;
+            // if(count>5) break;
+        }
+    }
 
 
     // do {
@@ -79,7 +137,10 @@ const Home = () => {
                     <Typography variant="body2" gutterBottom component="div">
                         Paste HTML in the textbox below:
                     </Typography>
-                    <TextField onChange={handleField} multiline sx={{ marginY: '2rem' }} rows={24} fullWidth required id="fullWidth" />
+                    <TextField
+                        onChange={handleField}
+                        // onChange={e => handleField(e)}
+                        multiline sx={{ marginY: '2rem' }} rows={24} fullWidth required id="fullWidth" />
                     <Box
                         style={{
                             display: 'flex',
@@ -94,7 +155,21 @@ const Home = () => {
                                 justifyContent: 'center'
                             }}
                             onClick={handleClick}
-                            variant='contained'>Process Code</Button>
+                            variant='contained'>
+                            Process Code
+                        </Button>
+                        <Button
+                            style={{
+                                backgroundColor: "#FFD803",
+                                color: 'black',
+                                marginTop: 7,
+                                justifyContent: 'center'
+                            }}
+                            onClick={RunRegx}
+                            variant='contained'>
+                            Run Regx
+                        </Button>
+
                     </Box>
                 </Box>
             </Container>
